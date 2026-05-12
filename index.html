@@ -16,67 +16,89 @@
       margin:0;
       font-family:Arial,sans-serif;
       color:#fff;
-      background:linear-gradient(160deg,#170020,#300047,#050008);
+      background:radial-gradient(circle at top,#42005c,#160020 45%,#050007);
       min-height:100vh;
       overflow-x:hidden;
     }
-    .app{max-width:430px;margin:auto;padding:18px}
-    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-    .logo{font-size:22px;font-weight:900}
+    .app{max-width:430px;margin:auto;padding:18px 18px 28px}
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:16px;
+    }
+    .logo{font-size:28px;font-weight:900}
     .online{
-      background:#14c77a;
-      padding:7px 12px;
-      border-radius:20px;
-      font-size:13px;
-      box-shadow:0 0 18px #14c77a;
+      background:#12c978;
+      padding:10px 17px;
+      border-radius:22px;
+      font-size:15px;
+      box-shadow:0 0 28px #12c978;
     }
     .hero{
       position:relative;
-      border-radius:28px;
+      border-radius:30px;
       overflow:hidden;
       background:#111;
-      box-shadow:0 20px 60px #000;
+      box-shadow:0 0 35px rgba(255,45,117,.45),0 25px 70px #000;
+      border:1px solid rgba(255,255,255,.12);
     }
     .hero img{
       width:100%;
-      height:420px;
+      height:520px;
       object-fit:cover;
+      object-position:center top;
       display:block;
+      filter:none;
     }
     .shade{
       position:absolute;
       inset:0;
-      background:linear-gradient(to top,#000 8%,transparent 65%);
+      background:linear-gradient(to top,#000 8%,rgba(0,0,0,.25) 42%,transparent 70%);
     }
-    .info{position:absolute;left:18px;right:18px;bottom:18px}
-    .name{font-size:30px;font-weight:900}
-    .status{font-size:15px;color:#ddd;margin-top:5px}
+    .info{
+      position:absolute;
+      left:20px;
+      right:20px;
+      bottom:22px;
+    }
+    .name{
+      font-size:34px;
+      font-weight:900;
+      text-shadow:0 2px 10px #000;
+    }
+    .status{
+      font-size:16px;
+      color:#eee;
+      margin-top:6px;
+    }
     .typing{
-      margin-top:12px;
-      background:rgba(255,255,255,.14);
-      padding:10px 14px;
-      border-radius:16px;
-      font-size:14px;
-      backdrop-filter:blur(8px);
+      margin-top:14px;
+      background:rgba(255,255,255,.16);
+      padding:13px 16px;
+      border-radius:22px;
+      font-size:15px;
+      backdrop-filter:blur(10px);
     }
     .cards{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin:16px 0;
+      gap:12px;
+      margin:18px 0;
     }
     .card{
-      height:120px;
-      border-radius:18px;
+      height:135px;
+      border-radius:22px;
       overflow:hidden;
       position:relative;
       background:#222;
+      box-shadow:0 0 18px rgba(255,255,255,.08);
     }
     .card img{
       width:100%;
       height:100%;
       object-fit:cover;
-      filter:blur(5px) brightness(.8);
+      filter:blur(6px) brightness(.75);
       transform:scale(1.08);
     }
     .lock{
@@ -85,44 +107,53 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:24px;
-      background:rgba(0,0,0,.25);
+      font-size:30px;
+      background:rgba(0,0,0,.28);
     }
     .btn{
       width:100%;
       border:0;
-      border-radius:18px;
-      padding:16px;
-      font-size:17px;
+      border-radius:24px;
+      padding:18px;
+      font-size:18px;
       font-weight:900;
-      margin-top:10px;
+      margin-top:12px;
       color:#fff;
       cursor:pointer;
     }
     .chatBtn{
-      background:linear-gradient(90deg,#ff2d75,#ff8a00);
-      box-shadow:0 10px 30px rgba(255,45,117,.45);
+      background:linear-gradient(90deg,#ff2070,#ff8a00);
+      box-shadow:0 12px 35px rgba(255,45,117,.45);
     }
     .vipBtn{
       background:linear-gradient(90deg,#7b2cff,#00d4ff);
-      box-shadow:0 10px 30px rgba(0,212,255,.35);
+      box-shadow:0 12px 35px rgba(0,212,255,.35);
     }
-    .note{text-align:center;color:#ccc;font-size:13px;margin-top:14px}
+    .note{
+      text-align:center;
+      color:#ddd;
+      font-size:13px;
+      margin-top:14px;
+    }
     .hidden{display:none}
     .chatbox{
-      margin-top:16px;
+      margin-top:18px;
       background:rgba(255,255,255,.1);
-      border-radius:22px;
+      border-radius:24px;
       padding:14px;
+      border:1px solid rgba(255,255,255,.1);
     }
     .msg{
       background:rgba(255,255,255,.16);
-      padding:10px 13px;
-      border-radius:16px;
-      margin:8px 0;
+      padding:11px 14px;
+      border-radius:18px;
+      margin:9px 0;
       font-size:14px;
     }
-    .me{background:#2481cc;margin-left:50px}
+    .me{
+      background:#2481cc;
+      margin-left:55px;
+    }
   </style>
 </head>
 
@@ -130,11 +161,11 @@
   <div class="app">
     <div class="top">
       <div class="logo">🔥 Live Chat</div>
-      <div class="online"><span id="onlineCount">128</span> online</div>
+      <div class="online"><span id="onlineCount">139</span> online</div>
     </div>
 
     <div class="hero">
-      <img src="girl1.jpg" alt="profile">
+      <img src="girl1.jpg" alt="CamenJulia profile">
       <div class="shade"></div>
       <div class="info">
         <div class="name">CamenJulia, 22</div>
@@ -144,9 +175,9 @@
     </div>
 
     <div class="cards">
-      <div class="card"><img src="girl1.jpg"><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl2.jpg"><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl3.jpg"><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
     </div>
 
     <button class="btn chatBtn" onclick="startChat()">Start Chat Free 💬</button>
@@ -166,12 +197,12 @@
     if (tg) {
       tg.ready();
       tg.expand();
-      tg.setHeaderColor("#170020");
-      tg.setBackgroundColor("#170020");
+      tg.setHeaderColor("#160020");
+      tg.setBackgroundColor("#160020");
     }
 
     setInterval(() => {
-      const num = Math.floor(Math.random() * 80) + 90;
+      const num = Math.floor(Math.random() * 90) + 90;
       document.getElementById("onlineCount").innerText = num;
     }, 2500);
 
