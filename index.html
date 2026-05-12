@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIP Live Chat</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Monetag Rewarded Interstitial -->
+  <script src="//libtl.com/sdk.js" data-zone="10982953" data-sdk="show_10982953"></script>
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      color:#fff;
+      background:linear-gradient(160deg,#170020,#300047,#050008);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    .app{max-width:430px;margin:auto;padding:18px}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .logo{font-size:22px;font-weight:900}
+    .online{
+      background:#14c77a;
+      padding:7px 12px;
+      border-radius:20px;
+      font-size:13px;
+      box-shadow:0 0 18px #14c77a;
+    }
+    .hero{
+      position:relative;
+      border-radius:28px;
+      overflow:hidden;
+      background:#111;
+      box-shadow:0 20px 60px #000;
+    }
+    .hero img{
+      width:100%;
+      height:420px;
+      object-fit:cover;
+      display:block;
+    }
+    .shade{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top,#000 8%,transparent 65%);
+    }
+    .info{position:absolute;left:18px;right:18px;bottom:18px}
+    .name{font-size:30px;font-weight:900}
+    .status{font-size:15px;color:#ddd;margin-top:5px}
+    .typing{
+      margin-top:12px;
+      background:rgba(255,255,255,.14);
+      padding:10px 14px;
+      border-radius:16px;
+      font-size:14px;
+      backdrop-filter:blur(8px);
+    }
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:16px 0;
+    }
+    .card{
+      height:120px;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      background:#222;
+    }
+    .card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:blur(5px) brightness(.8);
+      transform:scale(1.08);
+    }
+    .lock{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      background:rgba(0,0,0,.25);
+    }
+    .btn{
+      width:100%;
+      border:0;
+      border-radius:18px;
+      padding:16px;
+      font-size:17px;
+      font-weight:900;
+      margin-top:10px;
+      color:#fff;
+      cursor:pointer;
+    }
+    .chatBtn{
+      background:linear-gradient(90deg,#ff2d75,#ff8a00);
+      box-shadow:0 10px 30px rgba(255,45,117,.45);
+    }
+    .vipBtn{
+      background:linear-gradient(90deg,#7b2cff,#00d4ff);
+      box-shadow:0 10px 30px rgba(0,212,255,.35);
+    }
+    .note{text-align:center;color:#ccc;font-size:13px;margin-top:14px}
+    .hidden{display:none}
+    .chatbox{
+      margin-top:16px;
+      background:rgba(255,255,255,.1);
+      border-radius:22px;
+      padding:14px;
+    }
+    .msg{
+      background:rgba(255,255,255,.16);
+      padding:10px 13px;
+      border-radius:16px;
+      margin:8px 0;
+      font-size:14px;
+    }
+    .me{background:#2481cc;margin-left:50px}
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="top">
+      <div class="logo">🔥 Live Chat</div>
+      <div class="online"><span id="onlineCount">128</span> online</div>
+    </div>
+
+    <div class="hero">
+      <img src="girl1.jpg" alt="profile">
+      <div class="shade"></div>
+      <div class="info">
+        <div class="name">CamenJulia, 22</div>
+        <div class="status">📍 Near you • Active now</div>
+        <div class="typing">💬 CamenJulia is typing...</div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card"><img src="girl1.jpg"><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl2.jpg"><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl3.jpg"><div class="lock">🔒</div></div>
+    </div>
+
+    <button class="btn chatBtn" onclick="startChat()">Start Chat Free 💬</button>
+    <button class="btn vipBtn" onclick="unlockVIP()">Unlock VIP Gallery 🔓</button>
+
+    <div class="note">Watch short ad to unlock private photos</div>
+
+    <div id="chatbox" class="chatbox hidden">
+      <div class="msg">Hey 😘 are you there?</div>
+      <div class="msg me">Yes, I’m here</div>
+      <div class="msg">Unlock my VIP photos first 🔥</div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor("#170020");
+      tg.setBackgroundColor("#170020");
+    }
+
+    setInterval(() => {
+      const num = Math.floor(Math.random() * 80) + 90;
+      document.getElementById("onlineCount").innerText = num;
+    }, 2500);
+
+    function startChat() {
+      document.getElementById("chatbox").classList.remove("hidden");
+    }
+
+    function unlockVIP() {
+      if (typeof show_10982953 === "function") {
+        show_10982953().then(() => {
+          unlockPhotos();
+        }).catch(() => {
+          alert("Ad not ready. Please try again.");
+        });
+      } else {
+        alert("Ad loading... Please wait 3 seconds and try again.");
+      }
+    }
+
+    function unlockPhotos() {
+      document.querySelectorAll(".card img").forEach(img => {
+        img.style.filter = "none";
+        img.style.transform = "scale(1)";
+      });
+
+      document.querySelectorAll(".lock").forEach(lock => {
+        lock.style.display = "none";
+      });
+
+      alert("VIP Gallery unlocked 🔥");
+    }
+  </script>
+</body>
+</html>
