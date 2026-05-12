@@ -136,6 +136,13 @@ body{
 .fakeInput{
   flex:1;
   padding:12px;
+  color:white;
+  background:transparent;
+  border:0;
+  outline:none;
+  font-size:15px;
+}
+.fakeInput::placeholder{
   color:#94a3b8;
 }
 .btn{
@@ -190,8 +197,8 @@ body{
 
   <div class="bottom">
     <div class="input">
-      <div class="fakeInput">Type a reply...</div>
-      <button class="btn" onclick="replyNow()">Send 🔥</button>
+    <input id="userInput" class="fakeInput" placeholder="Type a reply..." />
+<button class="btn" onclick="replyNow()">Send 🔥</button>
     </div>
     <div class="note">Ad may appear before the message unlocks</div>
   </div>
@@ -261,7 +268,16 @@ function showTypingThenReply(){
 }
 
 function replyNow(){
-  addMsg("Hi ❤️", "me");
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+
+  if(!text){
+    input.focus();
+    return;
+  }
+
+  addMsg(text, "me");
+  input.value = "";
 
   if(typeof show_10982953 === "function"){
     show_10982953('pop')
