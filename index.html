@@ -2,314 +2,252 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pao Arias Live Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pao Arias Chat</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Monetag Rewarded Interstitial -->
+  <!-- Monetag -->
   <script src="//libtl.com/sdk.js" data-zone="10982953" data-sdk="show_10982953"></script>
 
   <style>
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:Arial,sans-serif;
-      color:#fff;
-      background:radial-gradient(circle at top,#42005c,#160020 45%,#050007);
+      font-family:Arial, sans-serif;
+      background:linear-gradient(180deg,#111827,#020617);
+      color:white;
+    }
+    .app{
+      max-width:430px;
+      margin:auto;
       min-height:100vh;
-      overflow-x:hidden;
-    }
-    .app{max-width:430px;margin:auto;padding:18px 18px 28px}
-    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-    .logo{font-size:26px;font-weight:900}
-    .online{
-      background:#12c978;
-      padding:10px 17px;
-      border-radius:22px;
-      font-size:15px;
-      box-shadow:0 0 28px #12c978;
-    }
-    .hero{
+      background:#0f172a;
       position:relative;
-      border-radius:30px;
       overflow:hidden;
-      background:#111;
-      box-shadow:0 0 35px rgba(255,45,117,.45),0 25px 70px #000;
-      border:1px solid rgba(255,255,255,.12);
     }
-    .hero img{
-      width:100%;
-      height:500px;
-      object-fit:cover;
-      object-position:center top;
-      display:block;
-    }
-    .shade{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top,#000 8%,rgba(0,0,0,.25) 45%,transparent 72%);
-    }
-    .info{position:absolute;left:20px;right:20px;bottom:22px}
-    .name{font-size:34px;font-weight:900;text-shadow:0 2px 10px #000}
-    .status{font-size:16px;color:#eee;margin-top:6px}
-    .typing{
-      margin-top:14px;
-      background:rgba(255,255,255,.16);
-      padding:13px 16px;
-      border-radius:22px;
-      font-size:15px;
-      backdrop-filter:blur(10px);
-    }
-    .liveMsg{
-      margin:16px 0;
-      padding:13px 16px;
-      background:rgba(255,255,255,.12);
-      border-radius:22px;
-      font-size:15px;
-      border:1px solid rgba(255,255,255,.1);
-    }
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin:18px 0;
-    }
-    .card{
-      height:135px;
-      border-radius:22px;
-      overflow:hidden;
-      position:relative;
-      background:#222;
-    }
-    .card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      filter:blur(6px) brightness(.75);
-      transform:scale(1.08);
-    }
-    .lock{
-      position:absolute;
-      inset:0;
+    .header{
       display:flex;
       align-items:center;
-      justify-content:center;
-      font-size:30px;
-      background:rgba(0,0,0,.28);
-    }
-    .btn{
-      width:100%;
-      border:0;
-      border-radius:24px;
-      padding:18px;
-      font-size:18px;
-      font-weight:900;
-      margin-top:12px;
-      color:#fff;
-      cursor:pointer;
-    }
-    .chatBtn{
-      background:linear-gradient(90deg,#ff2070,#ff8a00);
-      box-shadow:0 12px 35px rgba(255,45,117,.45);
-    }
-    .vipBtn{
-      background:linear-gradient(90deg,#7b2cff,#00d4ff);
-      box-shadow:0 12px 35px rgba(0,212,255,.35);
-    }
-    .note{text-align:center;color:#ddd;font-size:13px;margin-top:14px}
-    .hidden{display:none}
-    .chatbox{
-      margin-top:18px;
-      background:rgba(255,255,255,.1);
-      border-radius:24px;
+      gap:12px;
       padding:14px;
-      border:1px solid rgba(255,255,255,.1);
+      background:rgba(15,23,42,.95);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    .avatar{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid #22c55e;
+    }
+    .name{font-size:18px;font-weight:700}
+    .status{font-size:13px;color:#22c55e}
+    .badge{
+      margin-left:auto;
+      background:#ef4444;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+    }
+    .profile{
+      text-align:center;
+      padding:18px 14px 10px;
+    }
+    .hero{
+      width:92%;
+      max-height:330px;
+      object-fit:cover;
+      border-radius:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.45);
+    }
+    .timer{
+      margin-top:12px;
+      display:inline-block;
+      background:rgba(239,68,68,.15);
+      border:1px solid rgba(239,68,68,.4);
+      color:#fecaca;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:14px;
+    }
+    .chat{
+      padding:14px;
+      padding-bottom:120px;
     }
     .msg{
-      background:rgba(255,255,255,.16);
+      max-width:78%;
       padding:11px 14px;
+      margin:10px 0;
       border-radius:18px;
-      margin:9px 0;
-      font-size:14px;
+      font-size:15px;
+      line-height:1.35;
+      animation:pop .25s ease;
     }
-    .me{background:#2481cc;margin-left:55px}
-    .replyGrid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:8px;
-      margin-top:12px;
+    .her{
+      background:#1e293b;
+      border-bottom-left-radius:4px;
     }
-    .replyBtn{
+    .me{
+      margin-left:auto;
+      background:#2563eb;
+      border-bottom-right-radius:4px;
+    }
+    .locked{
+      background:rgba(255,255,255,.07);
+      border:1px dashed rgba(255,255,255,.25);
+      color:#cbd5e1;
+      text-align:center;
+      max-width:100%;
+    }
+    .typing{
+      color:#94a3b8;
+      font-size:13px;
+      margin:8px 4px;
+    }
+    .bottom{
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:100%;
+      max-width:430px;
+      padding:12px;
+      background:linear-gradient(180deg,rgba(15,23,42,0),#0f172a 30%);
+    }
+    .reply{
+      width:100%;
       border:0;
       border-radius:18px;
-      padding:13px;
-      background:rgba(255,255,255,.18);
-      color:white;
+      padding:15px;
+      font-size:16px;
       font-weight:800;
-      font-size:14px;
+      color:white;
+      background:linear-gradient(135deg,#ec4899,#8b5cf6);
+      box-shadow:0 12px 30px rgba(236,72,153,.35);
+    }
+    .reply:active{transform:scale(.98)}
+    .small{
+      text-align:center;
+      color:#94a3b8;
+      font-size:12px;
+      margin-top:8px;
+    }
+    @keyframes pop{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
     }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <div class="top">
-      <div class="logo">🔥 Live Chat</div>
-      <div class="online"><span id="onlineCount">139</span> online</div>
+    <div class="header">
+      <img src="girl1.jpg" class="avatar">
+      <div>
+        <div class="name">Pao Arias</div>
+        <div class="status">● Online now</div>
+      </div>
+      <div class="badge">VIP</div>
     </div>
 
-    <div class="hero">
-      <img src="girl1.jpg" alt="Pao Arias profile">
-      <div class="shade"></div>
-      <div class="info">
-        <div class="name">Pao Arias, 22</div>
-        <div class="status">📍 Near you • Active now</div>
-        <div class="typing" id="typingText">💬 Pao Arias is typing...</div>
-      </div>
+    <div class="profile">
+      <img id="heroImg" src="girl1.jpg" class="hero">
+      <div class="timer">Private chat closes in <span id="count">05:00</span></div>
     </div>
 
-    <div class="liveMsg" id="liveMsg">💌 Pao: Hi babe 😘 are you there?</div>
-
-    <div class="cards">
-      <div class="card"><img src="girl2.jpg"><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl3.jpg"><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl4.jpg"><div class="lock">🔒</div></div>
+    <div class="chat" id="chat">
+      <div class="msg her">Hey… you finally came 😘</div>
+      <div class="msg her">I was waiting for your reply…</div>
+      <div class="msg locked">🔒 Reply to unlock her next message</div>
     </div>
 
-    <button class="btn chatBtn" onclick="startChat()">Start Chat Free 💬</button>
-    <button class="btn vipBtn" onclick="unlockVIP()">Unlock VIP Gallery 🔓</button>
-
-    <div class="note">Reply once → watch short ad → continue chat</div>
-
-    <div id="chatbox" class="chatbox hidden">
-      <div id="messages">
-        <div class="msg">Hey 😘 are you there?</div>
-      </div>
-
-      <div class="replyGrid">
-        <button class="replyBtn" onclick="replyWithAd('Hi 😘')">Hi 😘</button>
-        <button class="replyBtn" onclick="replyWithAd('Where are you from?')">Where are you from?</button>
-        <button class="replyBtn" onclick="replyWithAd('Send me a pic 🔥')">Send me a pic 🔥</button>
-      </div>
+    <div class="bottom">
+      <button class="reply" onclick="replyNow()">Reply & Unlock Message 🔥</button>
+      <div class="small">Ad may appear before unlocking</div>
     </div>
   </div>
 
-  <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-      tg.setHeaderColor("#160020");
-      tg.setBackgroundColor("#160020");
-    }
+<script>
+  const tg = window.Telegram?.WebApp;
+  if (tg) {
+    tg.expand();
+    tg.ready();
+  }
 
-    const liveMessages = [
-      "💌 Pao: Hi babe 😘 are you there?",
-      "💌 Pao: I’m online now...",
-      "💌 Pao: Want to chat with me?",
-      "💌 Pao: Reply me first 😍",
-      "💌 Pao: I have private photos 🔥"
-    ];
+  const images = ["girl1.jpg","girl2.jpg","girl3.jpg"];
+  const replies = [
+    "Mmm… I like fast replies 😏",
+    "Are you still here with me?",
+    "I have something private to show you…",
+    "Don’t disappear now 😘",
+    "Say something cute first…",
+    "Okay… I’ll send one more message 🔥",
+    "You’re making me smile right now",
+    "Want to continue this private chat?"
+  ];
 
-    const botReplies = [
-      "Hey babe 😘 I was waiting for you.",
-      "I’m very close to you right now 📍",
-      "You seem cute 😍",
-      "Want to unlock my private gallery? 🔥",
-      "Watch one short ad and I’ll show you more 😘"
-    ];
+  let step = 0;
+  let seconds = 300;
 
-    let replyIndex = 0;
+  function updateTimer(){
+    seconds--;
+    if(seconds < 0) seconds = 300;
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    document.getElementById("count").innerText = `${m}:${s}`;
+  }
+  setInterval(updateTimer,1000);
 
-    setInterval(() => {
-      const num = Math.floor(Math.random() * 130) + 120;
-      document.getElementById("onlineCount").innerText = num;
+  function addMsg(text, cls){
+    const chat = document.getElementById("chat");
+    const div = document.createElement("div");
+    div.className = "msg " + cls;
+    div.innerText = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    window.scrollTo(0, document.body.scrollHeight);
+  }
 
-      const randomMsg = liveMessages[Math.floor(Math.random() * liveMessages.length)];
-      document.getElementById("liveMsg").innerText = randomMsg;
-    }, 2500);
+  function typingThenMessage(){
+    const chat = document.getElementById("chat");
+    const typing = document.createElement("div");
+    typing.className = "typing";
+    typing.innerText = "Pao Arias is typing...";
+    chat.appendChild(typing);
 
-    function startChat() {
-      document.getElementById("chatbox").classList.remove("hidden");
-      setTimeout(() => {
-        addBotMsg("Pao Arias is typing...");
-        setTimeout(() => {
-          addBotMsg("Reply me 😘");
-        }, 1200);
-      }, 500);
-    }
+    setTimeout(()=>{
+      typing.remove();
+      addMsg(replies[step % replies.length], "her");
+      step++;
 
-    function replyWithAd(text) {
-      addUserMsg(text);
+      document.getElementById("heroImg").src = images[step % images.length];
 
-      if (typeof show_10982953 === "function") {
-        show_10982953().then(() => {
-          afterAdReply();
-        }).catch(() => {
-          alert("Ad not ready. Please try again.");
-        });
-      } else {
-        alert("Ad loading... Please wait 3 seconds and try again.");
+      if(step % 2 === 0){
+        addMsg("🔒 Reply again to unlock the next private message", "locked");
       }
-    }
+    },1200);
+  }
 
-    function afterAdReply() {
-      const reply = botReplies[replyIndex % botReplies.length];
-      replyIndex++;
+  function replyNow(){
+    addMsg("Reply sent ❤️", "me");
 
-      setTimeout(() => {
-        addBotMsg("Typing...");
-        setTimeout(() => {
-          addBotMsg(reply);
-
-          if (replyIndex >= 3) {
-            unlockPhotos();
-          }
-        }, 1000);
-      }, 400);
-    }
-
-    function unlockVIP() {
-      if (typeof show_10982953 === "function") {
-        show_10982953().then(() => {
-          unlockPhotos();
-        }).catch(() => {
-          alert("Ad not ready. Please try again.");
+    if(typeof show_10982953 === "function"){
+      show_10982953('pop')
+        .then(() => {
+          typingThenMessage();
+        })
+        .catch(() => {
+          typingThenMessage();
         });
-      } else {
-        alert("Ad loading... Please wait 3 seconds and try again.");
-      }
+    } else {
+      typingThenMessage();
     }
-
-    function unlockPhotos() {
-      document.querySelectorAll(".card img").forEach(img => {
-        img.style.filter = "none";
-        img.style.transform = "scale(1)";
-      });
-
-      document.querySelectorAll(".lock").forEach(lock => {
-        lock.style.display = "none";
-      });
-
-      alert("VIP Gallery unlocked 🔥");
-    }
-
-    function addUserMsg(text) {
-      const box = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "msg me";
-      div.innerText = text;
-      box.appendChild(div);
-    }
-
-    function addBotMsg(text) {
-      const box = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "msg";
-      div.innerText = text;
-      box.appendChild(div);
-    }
-  </script>
+  }
+</script>
 </body>
 </html>
