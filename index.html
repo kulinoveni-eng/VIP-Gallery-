@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VIP Live Chat</title>
+  <title>Pao Arias Live Chat</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -21,13 +21,8 @@
       overflow-x:hidden;
     }
     .app{max-width:430px;margin:auto;padding:18px 18px 28px}
-    .top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:16px;
-    }
-    .logo{font-size:28px;font-weight:900}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .logo{font-size:26px;font-weight:900}
     .online{
       background:#12c978;
       padding:10px 17px;
@@ -45,33 +40,19 @@
     }
     .hero img{
       width:100%;
-      height:520px;
+      height:500px;
       object-fit:cover;
       object-position:center top;
       display:block;
-      filter:none;
     }
     .shade{
       position:absolute;
       inset:0;
-      background:linear-gradient(to top,#000 8%,rgba(0,0,0,.25) 42%,transparent 70%);
+      background:linear-gradient(to top,#000 8%,rgba(0,0,0,.25) 45%,transparent 72%);
     }
-    .info{
-      position:absolute;
-      left:20px;
-      right:20px;
-      bottom:22px;
-    }
-    .name{
-      font-size:34px;
-      font-weight:900;
-      text-shadow:0 2px 10px #000;
-    }
-    .status{
-      font-size:16px;
-      color:#eee;
-      margin-top:6px;
-    }
+    .info{position:absolute;left:20px;right:20px;bottom:22px}
+    .name{font-size:34px;font-weight:900;text-shadow:0 2px 10px #000}
+    .status{font-size:16px;color:#eee;margin-top:6px}
     .typing{
       margin-top:14px;
       background:rgba(255,255,255,.16);
@@ -79,6 +60,14 @@
       border-radius:22px;
       font-size:15px;
       backdrop-filter:blur(10px);
+    }
+    .liveMsg{
+      margin:16px 0;
+      padding:13px 16px;
+      background:rgba(255,255,255,.12);
+      border-radius:22px;
+      font-size:15px;
+      border:1px solid rgba(255,255,255,.1);
     }
     .cards{
       display:grid;
@@ -92,7 +81,6 @@
       overflow:hidden;
       position:relative;
       background:#222;
-      box-shadow:0 0 18px rgba(255,255,255,.08);
     }
     .card img{
       width:100%;
@@ -129,12 +117,7 @@
       background:linear-gradient(90deg,#7b2cff,#00d4ff);
       box-shadow:0 12px 35px rgba(0,212,255,.35);
     }
-    .note{
-      text-align:center;
-      color:#ddd;
-      font-size:13px;
-      margin-top:14px;
-    }
+    .note{text-align:center;color:#ddd;font-size:13px;margin-top:14px}
     .hidden{display:none}
     .chatbox{
       margin-top:18px;
@@ -150,9 +133,21 @@
       margin:9px 0;
       font-size:14px;
     }
-    .me{
-      background:#2481cc;
-      margin-left:55px;
+    .me{background:#2481cc;margin-left:55px}
+    .replyGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+      margin-top:12px;
+    }
+    .replyBtn{
+      border:0;
+      border-radius:18px;
+      padding:13px;
+      background:rgba(255,255,255,.18);
+      color:white;
+      font-weight:800;
+      font-size:14px;
     }
   </style>
 </head>
@@ -165,30 +160,38 @@
     </div>
 
     <div class="hero">
-      <img src="girl1.jpg" alt="CamenJulia profile">
+      <img src="girl1.jpg" alt="Pao Arias profile">
       <div class="shade"></div>
       <div class="info">
-        <div class="name">CamenJulia, 22</div>
+        <div class="name">Pao Arias, 22</div>
         <div class="status">📍 Near you • Active now</div>
-        <div class="typing">💬 CamenJulia is typing...</div>
+        <div class="typing" id="typingText">💬 Pao Arias is typing...</div>
       </div>
     </div>
 
+    <div class="liveMsg" id="liveMsg">💌 Pao: Hi babe 😘 are you there?</div>
+
     <div class="cards">
-      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
-      <div class="card"><img src="girl1.jpg" alt=""><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg"><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg"><div class="lock">🔒</div></div>
+      <div class="card"><img src="girl1.jpg"><div class="lock">🔒</div></div>
     </div>
 
     <button class="btn chatBtn" onclick="startChat()">Start Chat Free 💬</button>
     <button class="btn vipBtn" onclick="unlockVIP()">Unlock VIP Gallery 🔓</button>
 
-    <div class="note">Watch short ad to unlock private photos</div>
+    <div class="note">Reply once → watch short ad → continue chat</div>
 
     <div id="chatbox" class="chatbox hidden">
-      <div class="msg">Hey 😘 are you there?</div>
-      <div class="msg me">Yes, I’m here</div>
-      <div class="msg">Unlock my VIP photos first 🔥</div>
+      <div id="messages">
+        <div class="msg">Hey 😘 are you there?</div>
+      </div>
+
+      <div class="replyGrid">
+        <button class="replyBtn" onclick="replyWithAd('Hi 😘')">Hi 😘</button>
+        <button class="replyBtn" onclick="replyWithAd('Where are you from?')">Where are you from?</button>
+        <button class="replyBtn" onclick="replyWithAd('Send me a pic 🔥')">Send me a pic 🔥</button>
+      </div>
     </div>
   </div>
 
@@ -201,13 +204,70 @@
       tg.setBackgroundColor("#160020");
     }
 
+    const liveMessages = [
+      "💌 Pao: Hi babe 😘 are you there?",
+      "💌 Pao: I’m online now...",
+      "💌 Pao: Want to chat with me?",
+      "💌 Pao: Reply me first 😍",
+      "💌 Pao: I have private photos 🔥"
+    ];
+
+    const botReplies = [
+      "Hey babe 😘 I was waiting for you.",
+      "I’m very close to you right now 📍",
+      "You seem cute 😍",
+      "Want to unlock my private gallery? 🔥",
+      "Watch one short ad and I’ll show you more 😘"
+    ];
+
+    let replyIndex = 0;
+
     setInterval(() => {
-      const num = Math.floor(Math.random() * 90) + 90;
+      const num = Math.floor(Math.random() * 130) + 120;
       document.getElementById("onlineCount").innerText = num;
+
+      const randomMsg = liveMessages[Math.floor(Math.random() * liveMessages.length)];
+      document.getElementById("liveMsg").innerText = randomMsg;
     }, 2500);
 
     function startChat() {
       document.getElementById("chatbox").classList.remove("hidden");
+      setTimeout(() => {
+        addBotMsg("Pao Arias is typing...");
+        setTimeout(() => {
+          addBotMsg("Reply me 😘");
+        }, 1200);
+      }, 500);
+    }
+
+    function replyWithAd(text) {
+      addUserMsg(text);
+
+      if (typeof show_10982953 === "function") {
+        show_10982953().then(() => {
+          afterAdReply();
+        }).catch(() => {
+          alert("Ad not ready. Please try again.");
+        });
+      } else {
+        alert("Ad loading... Please wait 3 seconds and try again.");
+      }
+    }
+
+    function afterAdReply() {
+      const reply = botReplies[replyIndex % botReplies.length];
+      replyIndex++;
+
+      setTimeout(() => {
+        addBotMsg("Typing...");
+        setTimeout(() => {
+          addBotMsg(reply);
+
+          if (replyIndex >= 3) {
+            unlockPhotos();
+          }
+        }, 1000);
+      }, 400);
     }
 
     function unlockVIP() {
@@ -233,6 +293,22 @@
       });
 
       alert("VIP Gallery unlocked 🔥");
+    }
+
+    function addUserMsg(text) {
+      const box = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "msg me";
+      div.innerText = text;
+      box.appendChild(div);
+    }
+
+    function addBotMsg(text) {
+      const box = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "msg";
+      div.innerText = text;
+      box.appendChild(div);
     }
   </script>
 </body>
